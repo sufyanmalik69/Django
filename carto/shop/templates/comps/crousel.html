@@ -1,0 +1,40 @@
+{% load static %}
+{% load custom_filters %}
+{% block crousel %}
+<div class="container py-5">
+  {% for cat in data_chunks %}
+    <h2 class="mb-4">{{ cat_titles|index:forloop.counter0 }}</h2>
+
+    {% with carousel_id=forloop.counter %}
+    <div id="cardCarousel{{ carousel_id }}" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {% for group in cat %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <div class="row">
+              {% for i in group %}
+                <div class="col-md-3">
+                  <div class="card">
+                    <img src="{{ i.img.url }}" class="card-img-top" alt="{{ i.product_name }}">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ i.product_name }}</h5>
+                      <p class="card-text">{{ i.desc }}</p>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Carousel controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#cardCarousel{{ carousel_id }}" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#cardCarousel{{ carousel_id }}" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  {% endwith %}
+{% endfor %}
+{% endblock %}
